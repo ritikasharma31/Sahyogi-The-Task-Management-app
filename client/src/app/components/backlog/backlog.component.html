@@ -1,0 +1,79 @@
+<app-navbar>
+  <div class="backlog-container">
+    <!-- Calendar -->
+    <mat-card class="calendar-card">
+      <mat-card-content>
+        <mat-calendar
+          [(selected)]="selectedDate"
+          (selectedChange)="onDateSelected($event)"
+          [dateClass]="dateClass">
+        </mat-calendar>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Task Preview -->
+    <mat-card class="preview-card">
+      <mat-card-header>
+        <mat-card-title>
+          Tasks for {{ selectedDate | date: 'fullDate' }}
+          <span *ngIf="selectedFilter === 'created'">(Created)</span>
+          <span *ngIf="selectedFilter === 'deadline'">(Deadline)</span>
+        </mat-card-title>
+      </mat-card-header>
+
+      <!-- Filters -->
+      <div class="filter-section">
+        <mat-radio-group [(ngModel)]="selectedFilter">
+          <mat-radio-button value="created" color="primary">Created Date</mat-radio-button>
+          <mat-radio-button value="deadline" color="warn">Deadline</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Legend -->
+      <div class="legend">
+        <div class="legend-item">
+          <span class="legend-color created"></span>
+          <span>Task Created</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color deadline"></span>
+          <span>Task Deadline</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-color both"></span>
+          <span>Both</span>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+
+      <div class="conditions">
+         <mat-card-subtitle *ngIf="!selectedDate">
+          Please select a date to view tasks
+        </mat-card-subtitle>
+
+        <mat-card-subtitle *ngIf="selectedDate && filteredTasks.length === 0">
+          No tasks found for selected date
+        </mat-card-subtitle>
+      </div>
+      <mat-card-content *ngIf="selectedDate">
+        <div class="box">
+          <mat-accordion>
+          <mat-expansion-panel *ngFor="let task of filteredTasks">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h3>{{ task.taskTitle }}</h3>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <p>{{ task.taskDesc }}</p>
+            <div class="task-dates">
+              <div><strong>Created:</strong> {{ task.createdAt | date: 'mediumDate' }}</div>
+              <div><strong>Deadline:</strong> {{ task.dateDeadline | date: 'mediumDate' }}</div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</app-navbar>

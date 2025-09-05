@@ -1,0 +1,166 @@
+<mat-sidenav-container class="container">
+  <!-- Sidebar -->
+  <mat-sidenav
+    #sidenav
+    mode="side"
+    [opened]="!isCollapsed"
+    [class.collapsed]="isCollapsed"
+  >
+    <div class="sidebar">
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <a
+              (click)="this.router.navigateByUrl('/')"
+              [ngClass]="{ active: isActive('/') }"
+              class="sidebar-link"
+              matTooltipPosition="right"
+            >
+              <mat-icon>home</mat-icon>
+              <span *ngIf="!isCollapsed">Dashboard</span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              (click)="this.router.navigateByUrl('/tasks')"
+              [ngClass]="{ active: isActive('/tasks') }"
+              class="sidebar-link"
+              matTooltipPosition="right"
+            >
+              <mat-icon>task</mat-icon>
+              <span *ngIf="!isCollapsed">Tasks</span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              (click)="this.router.navigateByUrl('/projects')"
+              [ngClass]="{ active: isActive('/projects') }"
+              class="sidebar-link"
+              matTooltipPosition="right"
+            >
+              <mat-icon>business_center</mat-icon>
+              <span *ngIf="!isCollapsed">Projects</span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              (click)="this.router.navigateByUrl('/backlog')"
+              [ngClass]="{ active: isActive('/backlog') }"
+              class="sidebar-link"
+              matTooltipPosition="right"
+            >
+              <mat-icon>event_busy</mat-icon>
+              <span *ngIf="!isCollapsed">Backlog</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- <div class="vertical-spacer"></div> -->
+      <button
+        mat-icon-button
+        class="toggle-btn-sidebar"
+        matTooltip="Undock Sidebar"
+        (click)="toggleSidebar()"
+      >
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+    </div>
+  </mat-sidenav>
+
+  <!-- Main Content -->
+  <mat-sidenav-content>
+    <!-- Navbar -->
+    <div class="navbar">
+      <div class="logo" routerLink="/dashboard"></div>
+      <div class="search-spacer">
+        <mat-form-field class="search" appearance="outline">
+          <input
+            type="text"
+            matInput
+            placeholder="Search Tasks or Projects"
+            [formControl]="searchControl"
+            [matAutocomplete]="auto"
+          />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="onOptionSelected($event.option.value)"
+        >
+          <mat-option *ngFor="let option of filteredOptions" [value]="option">
+            {{ option.taskTitle || option.projectTitle }} <small>({{ option.type }})</small>
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+      <div class="icon-row">
+        <button
+          class="create-btn"
+          mat-flat-button
+          (click)="openCreatorButtonDialog()"
+        >
+          <mat-icon>create</mat-icon>Create
+        </button>
+        <button
+          class="btn"
+          mat-icon-button
+          matTooltip="AI Task Prioritization"
+          (click)="openAIPrioritizationDialog()"
+        >
+          <mat-icon>assistant</mat-icon>
+        </button>
+        <button
+          class="btn"
+          mat-icon-button
+          matTooltip="Support"
+          (click)="openSupport()"
+        >
+          <mat-icon>help</mat-icon>
+        </button>
+        <button
+          class="btn"
+          mat-icon-button
+          [matTooltip]="getNotificationTooltip()"
+          (click)="openNotificationsDialog()"
+        >
+          <mat-icon
+            matBadge="{{ getUnreadNotificationCount() }}"
+            matBadgeSize="small"
+            [matBadgeHidden]="hideBadge"
+            >notifications</mat-icon
+          >
+        </button>
+        <button
+          class="btn"
+          mat-icon-button
+          matTooltip="Settings"
+          (click)="openSettingsDialog()"
+        >
+          <mat-icon>settings</mat-icon>
+        </button>
+        <img
+          class="user-img"
+          [src]="imgURL || 'user.png'"
+          alt="User Profile"
+          (click)="openProfileDialog()"
+        />
+      </div>
+    </div>
+    <div class="open-btn" *ngIf="isCollapsed">
+      <button
+        class="toggle-btn"
+        matTooltip="Dock Sidebar"
+        mat-icon-button
+        (click)="toggleSidebar()"
+      >
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+    <div class="content">
+      <ng-content></ng-content>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

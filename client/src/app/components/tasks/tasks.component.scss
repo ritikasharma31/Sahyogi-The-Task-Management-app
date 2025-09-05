@@ -1,0 +1,153 @@
+$primary-dark: #13203a;
+$bg-light-blue: #a8d0ef;
+$border-dark: #394153;
+$mat-blue-dark: #a3baee;
+$mat-blue-light: #3768bb;
+
+.parent {
+  position: relative;
+  top: 90px;
+    max-height: 100%;
+  width: auto;
+  height: auto;
+  overflow: auto;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+    width: 0; /* Remove scrollbar space */
+    height: 0;
+    background: transparent; /* Optional: just make scrollbar invisible */
+  }
+}
+
+.button-container {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+  width: 100%;
+  padding-left: 10px;
+}
+
+.sorting-controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom:0;
+  flex-wrap: wrap;
+}
+
+.sorting-controls mat-button-toggle-group {
+  margin-right: 10px;
+}
+
+.add-task-button {
+  background-color: $bg-light-blue;
+  border: 2px solid $border-dark;
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    background-color: darken($bg-light-blue, 15%);
+    transform: scale(1.05);
+
+    @media (prefers-color-scheme: dark) {
+      background-color: black;
+    }
+  }
+}
+
+.filter-task-button {
+  background-color: white;
+  border: 2px solid $border-dark;
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    background-color: darken(#f0f0f0, 15%);
+    transform: scale(1.05);
+  }
+}
+
+.task-section-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.task-section {
+  height: 63vh;
+  padding: 15px;
+  background-color: white;
+  border: 2px solid $bg-light-blue;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, background-color 0.3s ease,
+    border-color 0.3s ease;
+
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #1a1b1f;
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+  }
+}
+
+.task-section h1 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* ⬇️ Dynamically styled card */
+.task-section mat-card.task-card {
+  padding: 15px;
+  border-radius: 8px;
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 10px;
+  // border: 1px solid lighten($bg-light-blue, 10%);
+  transition: transform 0.2s ease;
+
+  /* Background will now come from .task-card’s dynamic class */
+  background-color: #a3b9ee62;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  .task-title {
+    font-weight: 450;
+    margin-bottom: 5px;
+  }
+
+  .task-desc {
+    font-size: 0.9rem;
+  }
+}

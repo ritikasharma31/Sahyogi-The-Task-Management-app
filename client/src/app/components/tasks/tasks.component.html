@@ -1,0 +1,97 @@
+<app-navbar>
+  <div class="parent">
+    <div class="task-container">
+      <div class="button-container">
+        <button
+          mat-raised-button
+          (click)="createTask()"
+          class="add-task-button"
+        >
+          Add Task
+        </button>
+        <div class="sorting-controls">
+          <mat-button-toggle-group
+            [(value)]="dateSortOrder"
+            (change)="sortByDate(dateSortOrder)"
+          >
+            <mat-button-toggle value="newest">Newest First</mat-button-toggle>
+            <mat-button-toggle value="oldest">Oldest First</mat-button-toggle>
+          </mat-button-toggle-group>
+
+          <mat-button-toggle-group
+            [(value)]="complexitySortOrder"
+            (change)="sortByComplexity(complexitySortOrder)"
+          >
+            <mat-button-toggle value="highToLow">High to Low</mat-button-toggle>
+            <mat-button-toggle value="lowToHigh">Low to High</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+
+      <div class="task-section-container" cdkDropListGroup>
+        <!-- To Do -->
+        <div
+          class="task-section"
+          cdkDropList
+          [cdkDropListData]="todoTasks"
+          (cdkDropListDropped)="onTaskDrop($event, 'ToDo')"
+        >
+          <h1>To Do</h1>
+          <mat-card
+            class="task-card"
+            *ngFor="let task of todoTasks"
+            cdkDrag
+            (click)="openTaskDetails(task)"
+          >
+            <div class="task-card-content">
+              <div class="task-title">{{ task.taskTitle }}</div>
+              <div class="task-desc">{{ task.taskDesc | truncate : 50 }}</div>
+            </div>
+          </mat-card>
+        </div>
+
+        <!-- In Progress -->
+        <div
+          class="task-section"
+          cdkDropList
+          [cdkDropListData]="inProgressTasks"
+          (cdkDropListDropped)="onTaskDrop($event, 'InProgress')"
+        >
+          <h1>In Progress</h1>
+          <mat-card
+            class="task-card"
+            *ngFor="let task of inProgressTasks"
+            cdkDrag
+            (click)="openTaskDetails(task)"
+          >
+            <div class="task-card-content">
+              <div class="task-title">{{ task.taskTitle }}</div>
+              <div class="task-desc">{{ task.taskDesc | truncate : 50 }}</div>
+            </div>
+          </mat-card>
+        </div>
+
+        <!-- Done -->
+        <div
+          class="task-section"
+          cdkDropList
+          [cdkDropListData]="doneTasks"
+          (cdkDropListDropped)="onTaskDrop($event, 'Done')"
+        >
+          <h1>Done</h1>
+          <mat-card
+            class="task-card"
+            *ngFor="let task of doneTasks"
+            cdkDrag
+            (click)="openTaskDetails(task)"
+          >
+            <div class="task-card-content">
+              <div class="task-title">{{ task.taskTitle }}</div>
+              <div class="task-desc">{{ task.taskDesc | truncate : 50 }}</div>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-navbar>

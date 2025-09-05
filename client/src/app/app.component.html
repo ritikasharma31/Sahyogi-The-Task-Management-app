@@ -1,0 +1,11 @@
+<div *ngIf="isMobile; else desktopContent" class="mobile-container">
+  <div class="mobile-message">
+    <img src="logos-no-bg\full-logo-light.png" alt="Mobile Coming Soon" class="mobile-image" />
+    <h2 class="title">We're Sorry!<br>Sahyogi is Only Available for Desktops</h2>
+    <p class="subtitle">We're currently working on a great mobile experience. Please Stay tuned! 📱</p>
+  </div>
+</div>
+
+<ng-template #desktopContent>
+  <router-outlet></router-outlet>
+</ng-template>

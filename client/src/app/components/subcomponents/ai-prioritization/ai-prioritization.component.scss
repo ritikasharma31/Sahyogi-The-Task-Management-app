@@ -1,0 +1,14 @@
+.parent {
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    
+    mat-card {
+        display: flex;
+        padding: 20px;
+
+        justify-content: center;
+        align-items: center;
+    }
+}
